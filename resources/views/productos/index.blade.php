@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,5 +14,6 @@
             <li>{{ $producto->nombre }} - {{ $producto->precio }}</li>
         @endforeach
     </ul>
+    <a href="{{ url('/productos/crear') }}">Crear producto</a>
 </body>
 </html>
