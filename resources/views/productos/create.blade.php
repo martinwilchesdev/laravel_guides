@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Crear producto</title>
-</head>
-<body>
-    <h1>Agregar nuevo producto</h1>
+{{-- la vista hereda de un layout base llamado `app.blade.php` --}}
+@extends('layouts.app')
+
+{{-- define el contenido especifico dentro del layout `(@yield('content')) en el layout` --}}
+@section('content')
+<div class="mx-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Agregar nuevo producto</h2>
 
     {{-- Se muestra un mensaje de error si hay problemas con la validacion --}}
     @if ($errors->any())
-        <div style="color: red;">
+        <div class="bg-red-500 text-white text-center font-semibold w-full p-4 my-4 rounded">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -31,18 +28,16 @@
         {{-- Al enviar el formulario Laravel compara el token del formulario con el que tiene almacenado en la sesion --}}
         {{-- Si los token no coinciden, Laravel rechaza la solicitud con u error 419 Page expired --}}
 
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" required><br>
+        <label class="block mb-2 font-semibold" for="nombre">Nombre:</label>
+        <input type="text" name="nombre" class="w-full p-2 border-b-2 mb-3 outline-none" autocomplete="off" required><br>
 
-        <label for="precio">Precio:</label>
-        <input type="number" name="precio" step="0.01" required><br>
+        <label class="block mb-2 font-semibold" for="precio">Precio:</label>
+        <input type="number" name="precio" step="0.01" class="w-full p-2 border-b-2 mb-3 outline-none" required><br>
 
-        <label for="descripcion">Descripcion:</label>
-        <textarea name="descripcion"></textarea><br>
+        <label class="block mb-2 font-semibold" for="descripcion">Descripcion:</label>
+        <textarea name="descripcion" class="bg-blue-400 px-4 py-2 w-full outline-none resize-none"></textarea><br>
 
-        <button type="submit">Guardar producto</button>
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg cursor-pointer mt-4">Guardar producto</button>
     </form>
-
-    <a href="{{ url('/productos') }}">Volver a la lista</a>
-</body>
-</html>
+</div>
+@endsection
