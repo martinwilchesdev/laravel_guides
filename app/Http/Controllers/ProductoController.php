@@ -16,7 +16,7 @@ class ProductoController extends Controller
         */
     }
 
-    // devuelve la vista con el formulario
+    // devuelve la vista con el formulario para crear un nuevo producto
     public function create() {
         return view('productos.create');
     }
@@ -37,7 +37,40 @@ class ProductoController extends Controller
             'descripcion' => $request->descripcion
         ]);
 
-        // redirigir a la .ruta `/productos` con un mensaje de exito
-        return redirect('/productos')->with('success', 'Producto agregado correctamente');
+        // redirigir a la .ruta `/productos` utilizando el `name` definido para la ruta con un mensaje de exito
+        return redirect()->route('productos.index')->with('success', 'Producto agregado correctamente');
+    }
+
+    // mostrar el formulario de edicion
+    public function edit($id) {
+        $producto = Producto::findOrFail($id); // busca el producto en la base de datos, si no se encuentra muestra error 404
+        return view('productos.edit', compact('producto'));
+    }
+
+    // actualizar un producto en la base de datos
+    // recibe como paramretros el objeto de la request y el id del producto a actualizar
+    public function update(Request $request, $id) {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'precio' => 'required|numeric|min:0',
+            'descripcion' => 'nullable|string'
+        ]);
+
+        // se busca el producto que se va a actualizar
+        $producto = Producto::findOrFail($id);
+        $producto->update($request->all()); // actualiza el producto con los valores enviados
+
+        // redirigir a la ruta `/productos` utilizando el `name` definido para la ruta con un mensaje de exito
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente');
+    }
+
+    // eliminar un producto en la base de datos
+    public function destroy($id) {
+        // se busca el producto que se va a actualizar
+        $produto = Producto::findOrFail($id);
+        $produto->delete(); // se elimina el producto
+
+        // redirigir a la ruta `/productos` utilizando el `name` definido para la ruta con un mensaje de exito
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
     }
 }

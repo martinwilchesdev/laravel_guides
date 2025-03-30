@@ -1,19 +1,39 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lista de productos</title>
-</head>
-<body>
-    <h1>Lista de productos</h1>
-    <ul>
-        {{-- La directiva `@foreach` permite iterar un array dentro de una vista --}}
-        @foreach ($productos as $producto)
-            <li>{{ $producto->nombre }} - {{ $producto->precio }}</li>
-        @endforeach
-    </ul>
-    <a href="{{ url('/productos/crear') }}">Crear producto</a>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+<div>
+    <h2>Lista de productos</h2>
+
+    <a href="{{ route('productos.create') }}">Agregar producto</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Descripcion</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{-- La directiva `@foreach` permite iterar un array dentro de una vista --}}
+            @foreach ($productos as $producto)
+                <tr>
+                    <td>{{ $producto->nombre }}</td>
+                    <td>{{ $producto->precio }}</td>
+                    <td>
+                        <a href="{{ route('productos.edit', $producto->id) }}">Editar</a>
+                        <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('¿Estás seguro que deseas eliminar el producto?')">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endsection
