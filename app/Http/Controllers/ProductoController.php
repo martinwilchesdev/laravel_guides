@@ -7,12 +7,17 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
-    public function index() {
-        $productos = Producto::all(); // obtiene todos los productos de la base de datos
-        return view('productos.index', compact('productos')); // los productos obtenidos son pasados a la vista `productos.index`
+    public function index(Request $request) {
+        // obtener el valor de perPage pasado en la request desde el formulario, si no hay usar 5 por defecto
+        $perPage = $request->input('perPage', 5);
+
+        $productos = Producto::paginate($perPage); // obtener la cantidad de productos a mostrar por pagina
+        return view('productos.index', compact('productos', 'perPage')); // los productos obtenidos son pasados a la vista `productos.index`
         /**
          * `compact('productos')` crea un array asociativo donde el nombre de la variable es la clave y su valor es el contenido de `$productos`
-         * o lo que es lo mismo a escribir `return view('productos.index', ['productos' => $productos])`
+         * o lo que es lo mismo a escribir `return view('productos.index', ['productos' => $productos])`.
+         *
+         * se retorna el valor de `$perPage` para asegurar que se mantenga en la URL al cambiar de pagina.
         */
     }
 

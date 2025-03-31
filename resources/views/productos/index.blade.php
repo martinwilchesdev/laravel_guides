@@ -13,6 +13,18 @@
         </div>
     @endif
 
+    <form method="GET" class="mb-4">
+        <label for="perPage" class="font-semibold">Mostrar:</label>
+        {{-- `this.form.submit` permite que cuando el usuario seleccione una opcion, el formulario se envie automaticamente --}}
+        <select name="perPage" id="perPage" class="border p-2 rounded" onchange="this.form.submit()">
+            {{-- `selected` se utiliza para mantener la opcion seleccionada al recargar la pagina --}}
+            {{-- `request()` es un helper global de Laravel que permite acceder a la request desde cualquier parte del codigo --}}
+            <option value="5" {{ request('perPage') == 5 ? 'selected' : '' }}>5</option>
+            <option value="10" {{ request('perPage') == 10 ? 'selected' : '' }}>10</option>
+            <option value="15" {{ request('perPage') == 15 ? 'selected' : '' }}>15</option>
+        </select>
+    </form>
+
     <a href="{{ route('productos.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Agregar producto</a>
 
     <table class="table-auto w-full border-collapse border border-gray-300 mt-4">
@@ -46,5 +58,12 @@
             @endforeach
         </tbody>
     </table>
+
+    {{-- enlaces de paginacion --}}
+    <div class="mt-4">
+        {{-- $productos->links() genera automaticamente los enlaces de paginacion con estilos de tailwind --}}
+        {{-- `$productos->appends()` asegura que el parametro `$perPage` se mantenga en la URL al cambiar de pagina --}}
+        {{ $productos->appends(['perPage' => $perPage])->links('pagination::tailwind') }}
+    </div>
 </div>
 @endsection
