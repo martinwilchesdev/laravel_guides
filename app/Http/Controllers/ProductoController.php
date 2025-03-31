@@ -11,7 +11,21 @@ class ProductoController extends Controller
         // obtener el valor de perPage pasado en la request desde el formulario, si no hay usar 5 por defecto
         $perPage = $request->input('perPage', 5);
 
-        $productos = Producto::paginate($perPage); // obtener la cantidad de productos a mostrar por pagina
+        // iniciar la consulta (retorna la consulta basica para obtener todos los productos de la base de datos `select * from productos`)
+        $query = Producto::query();
+
+        // aplicar la busqueda si se proporciona un termino
+        if ($request->filled('search')) {
+            // filtra los productos cuyo nombre, precio o descripcion contenga el termino de busqueda
+            $query->where('nombre', 'like' , '%' . $request->search . '%')
+                ->orWhere('precio', 'like', '%' . $request->search . '%')
+                ->orWhere('descripcion', 'like', '%' . $request->search . '%');
+        }
+
+        // `appends($request->query())` mantiene los filtros activos al cambiar de pagina.
+        // en este caso al poginar se mantiene en la URL en termino de busqueda aplicado
+        $productos = $query->paginate($perPage)->appends($request->query()); // obtener la cantidad de productos a mostrar por pagina
+
         return view('productos.index', compact('productos', 'perPage')); // los productos obtenidos son pasados a la vista `productos.index`
         /**
          * `compact('productos')` crea un array asociativo donde el nombre de la variable es la clave y su valor es el contenido de `$productos`
