@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mi tienda</title>
+    <title>Laravel</title>
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
-    <nav class="bg-blue-600 p-4">
+    <nav class="bg-black p-4">
         <div class="container mx-auto">
-            <a class="text-white text-lg font-bold" href="{{ route('productos.index') }}">Mi tienda</a>
+            <a class="text-white text-lg font-bold" href="{{ route('productos.index') }}">Laravel</a>
         </div>
     </nav>
 
@@ -22,7 +22,7 @@
 
     {{-- el footer queda en la parte de abajo porque el contenido empuja el espacio restante --}}
     <footer class="text-center mt-6 p-4 bg-gray-200 text-gray-600">
-        <p>&copy; 2025 - Mi tienda</p>
+        <p>&copy; 2025 - Laravel</p>
     </footer>
 </body>
 </html>
