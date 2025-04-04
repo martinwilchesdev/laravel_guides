@@ -31,7 +31,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password) // se almacena la contraseña encriptada
+            // por defecto Laravel usa bcrypt para hacer hashing seguro
+            'password' => Hash::make($request->password) // en base de datos la contraseña se introducida por el usuario se almacena encriptada
         ]);
 
         Auth::login($user);

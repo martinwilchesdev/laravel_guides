@@ -1,6 +1,8 @@
 {{-- la vista hereda de un layout base llamado `app.blade.php` --}}
 @extends('layouts.app')
 
+@section('title', 'Lista de productos')
+
 {{-- define el contenido especifico dentro del layout `(@yield('content')) en el layout` --}}
 @section('content')
     <div class="container mx-auto p-4">

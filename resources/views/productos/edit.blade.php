@@ -1,6 +1,8 @@
 {{-- la vista hereda de un layout base llamado `app.blade.php` --}}
 @extends('layouts.app')
 
+@section('title', 'Editar producto')
+
 {{-- define el contenido especifico dentro del layout `(@yield('content')) en el layout` --}}
 @section('content')
     <div class="mx-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">

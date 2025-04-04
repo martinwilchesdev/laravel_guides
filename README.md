@@ -185,3 +185,9 @@ Product::create([
 ```
 
 > En el ejemplo anterior Laravel internamente realiza una consulta similar a `INSERT INTO productos (nombre, precio, descripcion) VALUES ('Laptop', 1000, 'Laptop de alta gama')`.
+
+## laravel-lang
+
+```bash
+composer require laravel-lang/common
+```
