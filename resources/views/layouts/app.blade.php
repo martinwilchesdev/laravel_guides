@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laravel</title>
+    <title>@yield('title')</title>
     @vite('resources/css/app.css')
 </head>
+
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
-    <nav class="bg-black p-4">
-        <div class="container mx-auto">
+    <nav class="flex justify-between items-center bg-black p-4 container">
+        <div>
             <a class="text-white text-lg font-bold" href="{{ route('productos.index') }}">Laravel</a>
+        </div>
+        <div class="flex gap-8 items-center text-white">
+            {{-- la directiva `@auth` muestra contenido unicamente a usuarios autenticados --}}
+            @auth
+                <a href="{{ route('productos.index') }}">Productos</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="cursor-pointer">Cerrar sesión</button>
+                </form>
+            @else
+                <a href="{{ route('login.form') }}">Iniciar sesión</a>
+                <a href="{{ route('register.form') }}" class="bg-blue-500 px-3 py-1 rounded">Registrarse</a>
+            @endauth
         </div>
     </nav>
 
@@ -25,4 +40,5 @@
         <p>&copy; 2025 - Laravel</p>
     </footer>
 </body>
+
 </html>

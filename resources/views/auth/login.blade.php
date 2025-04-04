@@ -1,7 +1,9 @@
-@extends('layouts.auth')
+@extends('layouts.app')
+
+@section('title', 'Iniciar sesión')
 
 @section('content')
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="flex min-h-full flex-col justify-center px-6 lg:px-8">
         @if ($errors->any())
             <div class="bg-red-500 text-white text-center font-semibold w-full p-2 my-2 rounded">
                 <ul>
@@ -17,7 +19,7 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-6" action="{{ route('auth.login') }}" method="POST">
+            <form class="space-y-6" action="{{ route('login') }}" method="POST">
                 @csrf
 
                 <div>
@@ -50,7 +52,7 @@
 
             <p class="mt-10 text-center text-sm/6 text-gray-500">
                 ¿Aún no tienes una cuenta?
-                <a href="{{ route('auth.registerForm') }}" class="font-semibold text-black hover:text-black/85">Crear cuenta</a>
+                <a href="{{ route('register.form') }}" class="font-semibold text-black hover:text-black/85">Crear cuenta</a>
             </p>
         </div>
     </div>

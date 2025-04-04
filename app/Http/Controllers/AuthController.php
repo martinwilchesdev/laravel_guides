@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class AuthController extends Controller
 {
@@ -33,8 +34,12 @@ class AuthController extends Controller
             'password' => Hash::make($request->password) // se almacena la contraseña encriptada
         ]);
 
-        Auth::login($user); // se inicia sesion automaticamente despues de realizado el registro
-        return redirect()->route('productos.index'); // se redirige al usuario a la vista `productos.index`
+        Auth::login($user);
+
+        // se envia un email de verificacion al correo proporcionado por el usuario
+        $user->sendEmailVerificationNotification();
+
+        return redirect()->route('verification.notice');
     }
 
     // mostrar el formulario de inicio de sesion
@@ -70,5 +75,32 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('productos.index');
+    }
+
+    // retorna la vista donde se le dan las instrucciones al usuario de que debe confirmar su email
+    public function verifyEmail(Request $request) {
+        // si el usuario ya verifico su email
+        if ($request->user()->hasVerifiedEmail()) {
+            // al intentar acceder a la vista de verificacion sera redirigido a la vista principal de productos
+            return redirect()->route('productos.index');
+        }
+
+        return view('auth.verify-email');
+    }
+
+    // maneja la accion de verificacion realizada desde el email del usuario
+    public function verifyHandler (EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        // redirige al usuario autenticado y verificado a lista de productos
+        return redirect()->route('productos.index');
+    }
+
+    // envia un nuevo correo de verificacion al usuario
+    public function verifySend(Request $request) {
+        $request->user()->sendEmailVerificationNotification(); // se le envia un nuevo mensaje de verificacion al usuario autenticado
+
+        // se mantiene al usuario en la vista actual y se muestra un mensaje con informacion sobre la accion realizada
+        return back()->with('message', 'Enlace de verificación enviado!');
     }
 }

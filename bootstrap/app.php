@@ -11,7 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // si el usuario no esta autenticado, al acceder a las rutas protegidas con el middleware `auth` seran redirigidos a la ruta `/login`
+        $middleware->redirectGuestsTo('login');
+
+        // si el usuario esta autenticado, al acceder a rutas con el middleware `guest`, seran redirigidos a la ruta `/productos`
+        $middleware->redirectUsersTo('productos');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
